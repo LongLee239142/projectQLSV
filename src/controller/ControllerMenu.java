@@ -1,6 +1,7 @@
 package controller;
 
 import bo.ListStudentBo;
+import bo.StudentBo;
 import entities.Student;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -9,6 +10,8 @@ public class ControllerMenu {
 
   public void controllerMenu() {
     ListStudentBo listStudentBo = new ListStudentBo();
+    StudentBo studentBo = new StudentBo();
+    studentBo.initiaPersonList();
     listStudentBo.initiaPersonList();
     Scanner scanner = new Scanner(System.in);
 
@@ -31,6 +34,8 @@ public class ControllerMenu {
         switch (choice) {
           case 1:
             listStudentBo.addNewStudent(Menu.MenuInputDataCreate());
+              System.out.println("Student added successfully!");
+//            StudentBo.addNewStudent(Menu.MenuInputDataCreate());
             System.out.println("---------------------------------------------------");
             break;
 
@@ -38,7 +43,7 @@ public class ControllerMenu {
             System.out.println("Enter Id Student you want to update: ");
             int updateId = scanner.nextInt();
             scanner.nextLine(); // Clear the buffer
-             ControllerMenuUpdate.ControllerUpdate(updateId);
+            ControllerMenuUpdate.ControllerUpdate(updateId);//DynamicArray
             System.out.println("---------------------------------------------------");
             break;
 
@@ -75,6 +80,8 @@ public class ControllerMenu {
 
           case 7:
             listStudentBo.getAll().forEach(System.out::println);
+//            studentBo.getAll().forEach(System.out::println);
+
             System.out.println("---------------------------------------------------");
             break;
 

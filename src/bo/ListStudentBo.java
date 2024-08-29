@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -20,7 +22,7 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class ListStudentBo implements ICommon<Student>, serviceFeature {
+public class ListStudentBo implements ICommon<Student> {
 
   private static List<Student> studentLists = new ArrayList<Student>();
 
@@ -51,7 +53,6 @@ public class ListStudentBo implements ICommon<Student>, serviceFeature {
     return studentLists;
   }
 
-
   @Override
   public Student getOneById(int id) {
     Optional<Student> student = studentLists.stream()
@@ -61,9 +62,8 @@ public class ListStudentBo implements ICommon<Student>, serviceFeature {
   }
 
   @Override
-  public boolean addNewStudent(Student obj) {
+  public void addNewStudent(Student obj) {
     studentLists.add(obj);
-    return true;
   }
 
   @Override
@@ -80,18 +80,6 @@ public class ListStudentBo implements ICommon<Student>, serviceFeature {
       student.get().setUniversity(obj.getUniversity());
       student.get().setStartYear(obj.getStartYear());
       student.get().setGpa(obj.getGpa());
-      return true;
-    }
-    return false;
-  }
-
-  @Override
-  public boolean updateByIdFollowRequest(int id ) {
-    Optional<Student> student = studentLists.stream()
-        .filter(s -> s.getId() == id).findFirst();
-    if (student.isPresent()) {
-      Student studentStudent = student.get();
-      MenuInputDataUpdate(studentStudent);
       return true;
     }
     return false;
@@ -179,50 +167,62 @@ public class ListStudentBo implements ICommon<Student>, serviceFeature {
     }
   }
 
-  public void updateService(int id) {
-    Optional<Student> student = studentLists.stream()
-        .filter(s -> s.getId() == id)
-        .findFirst();
-    if (student.isPresent()) {
-      boolean isContinueLoop = true;
-      while (isContinueLoop) {
-        System.out.println("----------------------------------------------------------------");
-        System.out.println("Which information would you like to update?");
-        System.out.println("1: Name");
-        System.out.println("2: Address");
-        System.out.println("3: Height");
-        System.out.println("4: Weight");
-        System.out.println("5: Student Code");
-        System.out.println("6: School Name");
-        System.out.println("7: Start Year");
-        System.out.println("8: GPA");
-        System.out.println("9: Date of Birth");
-        System.out.println("10: Exit");
-        System.out.print("Enter your choice: ");
-        Scanner sc = new Scanner(System.in);
-        int choice = sc.nextInt();
-        sc.nextLine();
+  public void updateRequestById(int id, String info, int chosen) throws ParseException {
 
-//        switch (choice) {
-//          case 1 -> student.setName();
-//          case 2 -> student.setAddress();
-//          case 3 -> student.setHeight();
-//          case 4 -> student.setWeight();
-//          case 5 -> {
-//            String inputCode = StudentUtil.getValidStudentCode();
-//            if (isUniqueStudentCode(inputCode)) {
-//              student.setStudentCode(inputCode);
-//            } else {
-//              System.out.println("Student code is not unique.");
-//            }
-//          }
-//          case 6 -> student.setSchoolName(StudentUtil.getValidSchool());
-//          case 7 -> student.setYearStart(StudentUtil.getValidStartYear());
-//          case 8 -> student.setGpa(StudentUtil.getValidGPA());
-//          case 9 -> student.setDateOfBirth(StudentUtil.getValidDateOfBirth());
-//          case 10 -> isContinueLoop = false;
-//          default -> System.out.println("Invalid choice. Please enter a valid option.");
+    Student student = getOneById(id);
+
+    if (student != null) {
+      switch (chosen) {
+        case 1:
+          student.setName(info);
+          System.out.println("Student name updated successfully.");
+          break;
+        case 2:
+
+          SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+          student.setDateOfBirth((Date) dateFormat.parse(info));
+          System.out.println("Student birth of date updated successfully.");
+
+          break;
+        case 3:
+
+          student.setAddress(info);
+          System.out.println("Student address updated successfully.");
+
+          break;
+        case 4:
+
+          student.setHeight(Double.parseDouble(info));
+          System.out.println("Student height updated successfully.");
+
+          break;
+        case 5:
+
+          student.setWeight(Double.parseDouble(info));
+          System.out.println("Student weight updated successfully.");
+
+          break;
+        case 6:
+          student.setStudentCode(info);
+          System.out.println("Student student code updated successfully.");
+          break;
+        case 7:
+          student.setUniversity(info);
+          System.out.println("Student university updated successfully.");
+          break;
+        case 8:
+          student.setStartYear(Integer.parseInt(info));
+          System.out.println("Student start year updated successfully.");
+          break;
+        case 9:
+          student.setGpa(Double.parseDouble(info));
+          System.out.println("Student GPA updated successfully.");
+          break;
+        default:
+          System.out.println("Invalid option. Please choose a number between 1 and 9.");
       }
+    } else {
+      System.out.println("Student not found!");
     }
   }
 }

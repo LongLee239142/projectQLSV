@@ -7,8 +7,6 @@ import validations.Validation;
 
 public class Menu {
 
-  private static Student student;
-
   public static void displayMess(String message) {
     System.out.println(message);
   }
@@ -30,7 +28,7 @@ public class Menu {
 
       String dateOfBirth;
       while (true) {
-        displayMess("Enter student's date of birth (yyyy-mm-dd)'");
+        displayMess("Enter student's date of birth (yyyy-mm-dd): ");
         dateOfBirth = scanner.nextLine();
         if (Validation.isValidBirthDate(dateOfBirth)) {
           break;
@@ -55,14 +53,15 @@ public class Menu {
         displayMess("Student's height (cm): ");
         if (scanner.hasNextDouble()) {
           height = scanner.nextDouble();
+          scanner.nextLine(); // Clear the buffer
           if (Validation.isValidHeight(String.valueOf(height))) {
             break;
           } else {
-            displayMess("Invalid height format. Please enter again.");
+            displayMess("Invalid height. Please enter again.");
           }
         } else {
-          displayMess("Invalid height format. Please enter a valid number.");
-          scanner.next();
+          displayMess("Invalid height. Please enter a valid number.");
+          scanner.next(); // Clear invalid input
         }
       }
 
@@ -71,17 +70,17 @@ public class Menu {
         displayMess("Student's weight (kg): ");
         if (scanner.hasNextDouble()) {
           weight = scanner.nextDouble();
+          scanner.nextLine(); // Clear the buffer
           if (Validation.isValidWeight(String.valueOf(weight))) {
             break;
           } else {
-            displayMess("Invalid weight format. Please enter again.");
+            displayMess("Invalid weight. Please enter again.");
           }
         } else {
-          displayMess("Invalid weight format. Please enter a valid number.");
-          scanner.next();
+          displayMess("Invalid weight. Please enter a valid number.");
+          scanner.next(); // Clear invalid input
         }
       }
-      scanner.nextLine();
 
       String studentCode;
       while (true) {
@@ -101,7 +100,7 @@ public class Menu {
         if (Validation.isValidUniversity(university)) {
           break;
         } else {
-          displayMess("Invalid university format. Please enter again");
+          displayMess("Invalid university format. Please enter again.");
         }
       }
 
@@ -110,14 +109,15 @@ public class Menu {
         displayMess("Enter student's start year: ");
         if (scanner.hasNextInt()) {
           startYear = scanner.nextInt();
+          scanner.nextLine(); // Clear the buffer
           if (Validation.isValidStartYear(String.valueOf(startYear))) {
             break;
           } else {
-            displayMess("Invalid start year format. Please enter again.");
+            displayMess("Invalid start year. Please enter again.");
           }
         } else {
-          displayMess("Invalid start year format. Please enter a valid");
-          scanner.next(); // clear invalid input
+          displayMess("Invalid start year. Please enter a valid number.");
+          scanner.next(); // Clear invalid input
         }
       }
 
@@ -126,14 +126,15 @@ public class Menu {
         displayMess("Enter student's GPA: ");
         if (scanner.hasNextDouble()) {
           gpa = scanner.nextDouble();
+          scanner.nextLine(); // Clear the buffer
           if (Validation.isValidGPA(String.valueOf(gpa))) {
             break;
           } else {
-            displayMess("Invalid GPA format. Please enter again.");
+            displayMess("Invalid GPA. Please enter again.");
           }
         } else {
-          displayMess("Invalid GPA format. Please enter a valid number.");
-          scanner.next(); // clear invalid input
+          displayMess("Invalid GPA. Please enter a valid number.");
+          scanner.next(); // Clear invalid input
         }
       }
 

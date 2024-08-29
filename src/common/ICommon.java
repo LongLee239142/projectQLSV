@@ -1,6 +1,8 @@
 package common;
 
 import entities.Student;
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
 
 public interface ICommon<T> {
@@ -11,7 +13,7 @@ public interface ICommon<T> {
 
   T getOneById(int id);
 
-  boolean addNewStudent(T obj);
+  void addNewStudent(T obj);
 
   boolean updateById(int id, T obj);
 
@@ -25,6 +27,6 @@ public interface ICommon<T> {
 
   void loadListStudentFromFile(List<T> obj);
 
-  boolean updateByIdFollowRequest(int id);
+  void updateRequestById(int id, String infor, int chosen)throws ParseException;
 
 }
