@@ -2,11 +2,17 @@ package controller;
 
 import bo.ListStudentBo;
 import bo.StudentBo;
+import entities.Person;
 import entities.Student;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import validations.Validation;
 
 public class ControllerMenu {
+
+  public static void displayMess(String message) {
+    System.out.println(message);
+  }
 
   public void controllerMenu() {
     ListStudentBo listStudentBo = new ListStudentBo();
@@ -14,7 +20,6 @@ public class ControllerMenu {
     studentBo.initiaPersonList();
     listStudentBo.initiaPersonList();
     Scanner scanner = new Scanner(System.in);
-
     while (true) {
       try {
         System.out.println("1. Add new student");
@@ -33,9 +38,8 @@ public class ControllerMenu {
 
         switch (choice) {
           case 1:
-            listStudentBo.addNewStudent(Menu.MenuInputDataCreate());
-              System.out.println("Student added successfully!");
-//            StudentBo.addNewStudent(Menu.MenuInputDataCreate());
+            Menu.MenuInputDataCreate();
+            System.out.println("Student added successfully!");
             System.out.println("---------------------------------------------------");
             break;
 
@@ -50,9 +54,9 @@ public class ControllerMenu {
           case 3:
             System.out.println("Enter Id Student you want to find: ");
             int findId = scanner.nextInt();
-            Student student = listStudentBo.getOneById(findId);
-            if (student != null) {
-              System.out.println(student);
+            Student students = listStudentBo.getOneById(findId);
+            if (students != null) {
+              System.out.println(students);
             } else {
               System.out.println("Student not found!");
             }
@@ -79,9 +83,10 @@ public class ControllerMenu {
             break;
 
           case 7:
-            listStudentBo.getAll().forEach(System.out::println);
-//            studentBo.getAll().forEach(System.out::println);
-
+//            listStudentBo.getAll().forEach(System.out::println);
+            studentBo.getAll().forEach(System.out::println);
+            System.out.println(StudentBo.getCount());
+//            System.out.println(Person.getStaticId());
             System.out.println("---------------------------------------------------");
             break;
 

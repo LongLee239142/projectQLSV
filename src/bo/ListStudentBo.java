@@ -24,38 +24,38 @@ import java.util.stream.Collectors;
 
 public class ListStudentBo implements ICommon<Student> {
 
-  private static List<Student> studentLists = new ArrayList<Student>();
+  private static List<Student> studentLists_dynamic = new ArrayList<Student>();
 
   @Override
   public List<Student> initiaPersonList() {
-    studentLists.add(new Student("Bob Smith", new Date(1999, 11, 10),
+    studentLists_dynamic.add(new Student("Bob Smith", new Date(1999, 11, 10),
         "789 Oak St", 1.80, 75.0, "S34567",
         "Stanford University",
         2018, 7.8));
-    studentLists.add(new Student("Alice Johnson", new Date(2001, 5, 20),
+    studentLists_dynamic.add(new Student("Alice Johnson", new Date(2001, 5, 20),
         "456 Elm St", 1.68, 60.0, "S23456",
         "Harvard University", 2019, 7.9));
-    studentLists.add(new Student("Carol White", new Date(2002, 7, 30),
+    studentLists_dynamic.add(new Student("Carol White", new Date(2002, 7, 30),
         "101 Maple Ave", 1.65, 55.0, "S45678", "MIT",
         2020, 4.3));
-    studentLists.add(new Student("David Brown", new Date(2000, 3, 25),
+    studentLists_dynamic.add(new Student("David Brown", new Date(2000, 3, 25),
         "202 Pine St", 1.70, 68.0, "S56789",
         "University of California, Berkeley", 2017, 8.5));
-    studentLists.add(
+    studentLists_dynamic.add(
         new Student("Eva Green", new Date(2003, 9, 15),
             "303 Cedar Rd", 1.72, 62.5, "S67890",
             "Princeton University", 2021, 9.5));
-    return studentLists;
+    return studentLists_dynamic;
   }
 
   @Override
   public List<Student> getAll() {
-    return studentLists;
+    return studentLists_dynamic;
   }
 
   @Override
   public Student getOneById(int id) {
-    Optional<Student> student = studentLists.stream()
+    Optional<Student> student = studentLists_dynamic.stream()
         .filter(s -> s.getId() == id)
         .findFirst();
     return student.orElse(null);
@@ -63,12 +63,17 @@ public class ListStudentBo implements ICommon<Student> {
 
   @Override
   public void addNewStudent(Student obj) {
-    studentLists.add(obj);
+    if (obj != null) {
+      studentLists_dynamic.add(obj);
+      System.out.println("Student added successfully.");
+    } else {
+      System.out.println("Error: Cannot add null student.");
+    }
   }
 
   @Override
   public boolean updateById(int id, Student obj) {
-    Optional<Student> student = studentLists.stream()
+    Optional<Student> student = studentLists_dynamic.stream()
         .filter(s -> s.getId() == id).findFirst();
     if (student.isPresent()) {
       student.get().setName(obj.getName());
@@ -87,12 +92,12 @@ public class ListStudentBo implements ICommon<Student> {
 
   @Override
   public boolean deleteById(int id) {
-    Optional<Student> student = studentLists.stream()
+    Optional<Student> student = studentLists_dynamic.stream()
         .filter(s -> s.getId() == id)
         .findFirst();
     if (student.isPresent()) {
-      studentLists.remove(student.get());
-      List<Student> studentAfterRemove = studentLists.stream().filter(s -> s.getId() > id).toList();
+      studentLists_dynamic.remove(student.get());
+      List<Student> studentAfterRemove = studentLists_dynamic.stream().filter(s -> s.getId() > id).toList();
       int temp = id;
       for (int i = 0; i < studentAfterRemove.size(); i++) {
         studentAfterRemove.get(i).setId(temp);
@@ -107,7 +112,7 @@ public class ListStudentBo implements ICommon<Student> {
 
   @Override
   public List<Student> viewRankAcademicPerformance() {
-    List<Student> sortedStudentList = studentLists.stream()
+    List<Student> sortedStudentList = studentLists_dynamic.stream()
         .sorted(Comparator.comparingDouble(Student::getGpa).reversed())
         .collect(Collectors.toList());
     System.out.println("Rank Academic Performance:");
@@ -130,9 +135,9 @@ public class ListStudentBo implements ICommon<Student> {
 
   @Override
   public void viewPercentRankAcademicPerformance() {
-    Map<EnumPerformance, Long> countByAcadamicPerformance = studentLists.stream()
+    Map<EnumPerformance, Long> countByAcadamicPerformance = studentLists_dynamic.stream()
         .collect(Collectors.groupingBy(Student::getAcademicPerformance, Collectors.counting()));
-    int totalStudents = studentLists.size();
+    int totalStudents = studentLists_dynamic.size();
     LinkedHashMap<EnumPerformance, Double> percentOfPerformance = new LinkedHashMap<>();
     for (EnumPerformance performance : EnumPerformance.values()) {
       long amount = countByAcadamicPerformance.getOrDefault(performance, 0L);

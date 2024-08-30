@@ -16,6 +16,10 @@ public class StudentBo implements ICommon<Student> {
   private static final Student[] studentLists = new Student[MAX_STUDENT];
   private static int count = 0;
 
+  public static int getCount() {
+    return count;
+  }
+
   @Override
   public List<Student> initiaPersonList() {
     studentLists[0] = new Student("Bob Smith", new Date(1999, 11, 10),

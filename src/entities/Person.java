@@ -74,6 +74,10 @@ public class Person implements Serializable {
     this.weight = weight;
   }
 
+  public static int getStaticId() {
+    return staticId;
+  }
+
   @Override
   public String toString() {
     return
