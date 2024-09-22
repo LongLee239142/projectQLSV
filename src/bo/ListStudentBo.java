@@ -1,7 +1,4 @@
 package bo;
-
-import static controller.Menu.MenuInputDataUpdate;
-
 import common.ICommon;
 import common.EnumPerformance;
 import entities.Student;
@@ -10,16 +7,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class ListStudentBo implements ICommon<Student> {
@@ -28,21 +24,21 @@ public class ListStudentBo implements ICommon<Student> {
 
   @Override
   public List<Student> initiaPersonList() {
-    studentLists_dynamic.add(new Student("Bob Smith", new Date(1999, 11, 10),
+    studentLists_dynamic.add(new Student("Bob Smith",  LocalDate.of(1999, 11, 10),
         "789 Oak St", 1.80, 75.0, "S34567",
         "Stanford University",
         2018, 7.8));
-    studentLists_dynamic.add(new Student("Alice Johnson", new Date(2001, 5, 20),
+    studentLists_dynamic.add(new Student("Alice Johnson", LocalDate.of(2001, 5, 20),
         "456 Elm St", 1.68, 60.0, "S23456",
         "Harvard University", 2019, 7.9));
-    studentLists_dynamic.add(new Student("Carol White", new Date(2002, 7, 30),
+    studentLists_dynamic.add(new Student("Carol White", LocalDate.of(2002, 7, 30),
         "101 Maple Ave", 1.65, 55.0, "S45678", "MIT",
         2020, 4.3));
-    studentLists_dynamic.add(new Student("David Brown", new Date(2000, 3, 25),
+    studentLists_dynamic.add(new Student("David Brown", LocalDate.of(2000, 3, 25),
         "202 Pine St", 1.70, 68.0, "S56789",
         "University of California, Berkeley", 2017, 8.5));
     studentLists_dynamic.add(
-        new Student("Eva Green", new Date(2003, 9, 15),
+        new Student("Eva Green", LocalDate.of(2003, 9, 15),
             "303 Cedar Rd", 1.72, 62.5, "S67890",
             "Princeton University", 2021, 9.5));
     return studentLists_dynamic;
@@ -110,6 +106,24 @@ public class ListStudentBo implements ICommon<Student> {
     return true;
   }
 
+//  public List<Student> getStudentByRank(String rank) {
+//    return studentLists_dynamic.stream()
+//        .filter(s -> {
+//          s.getAcademicPerformance().equals(rank);
+//          return false;
+//        }).toList();
+//  }
+public void getStudentByRank(String rank) {
+  if(studentLists_dynamic.isEmpty()){
+    System.out.println("Not Found Student List");
+    return;
+  }
+  for(Student student : studentLists_dynamic) {
+    if (student.getAcademicPerformance().equalsIgnoreCase(rank)) {
+      System.out.println(student);
+    }
+  }
+}
   @Override
   public List<Student> viewRankAcademicPerformance() {
     List<Student> sortedStudentList = studentLists_dynamic.stream()
@@ -183,9 +197,8 @@ public class ListStudentBo implements ICommon<Student> {
           System.out.println("Student name updated successfully.");
           break;
         case 2:
-
-          SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-          student.setDateOfBirth((Date) dateFormat.parse(info));
+          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+          student.setDateOfBirth(LocalDate.parse(info, formatter));
           System.out.println("Student birth of date updated successfully.");
 
           break;

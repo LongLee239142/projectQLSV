@@ -1,14 +1,8 @@
 package controller;
 
-import static controller.Menu.MenuInputDataUpdate;
-
 import bo.ListStudentBo;
 import bo.StudentBo;
-import entities.Student;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import validations.Validation;
 
@@ -94,8 +88,10 @@ public class ControllerMenuUpdate {
             double height;
             while (true) {
               displayMess("Student's height (cm): ");
-              if (scanner.hasNextDouble()) {
-                height = scanner.nextDouble();
+              String input = scanner.nextLine().trim();
+
+              if (!input.isEmpty() && input.matches("\\d+(\\.\\d+)?")) {
+                height = Double.parseDouble(input);
                 if (Validation.isValidHeight(String.valueOf(height))) {
                   break;
                 } else {
@@ -103,7 +99,6 @@ public class ControllerMenuUpdate {
                 }
               } else {
                 displayMess("Invalid height format. Please enter a valid number.");
-                scanner.next();
               }
             }
             listStudentBo.updateRequestById(id, String.valueOf(height), choice);
@@ -115,19 +110,19 @@ public class ControllerMenuUpdate {
             double weight;
             while (true) {
               displayMess("Student's weight (kg): ");
-              if (scanner.hasNextDouble()) {
-                weight = scanner.nextDouble();
+              String input = scanner.nextLine().trim();
+
+              if (!input.isEmpty() && input.matches("\\d+(\\.\\d+)?")) {
+                weight = Double.parseDouble(input);
                 if (Validation.isValidWeight(String.valueOf(weight))) {
                   break;
                 } else {
                   displayMess("Invalid weight format. Please enter again.");
                 }
               } else {
-                displayMess("Invalid weight format. Please enter a valid number.");
-                scanner.next();
+                displayMess("Invalid weight format. Please enter again.");
               }
             }
-            scanner.nextLine();
             listStudentBo.updateRequestById(id, String.valueOf(weight), choice);
 //            studentBo.updateRequestById(id, String.valueOf(weight) ,choice);
             System.out.println("Weight updated successfully.");
@@ -169,8 +164,10 @@ public class ControllerMenuUpdate {
             int startYear;
             while (true) {
               displayMess("Enter student's start year: ");
-              if (scanner.hasNextInt()) {
-                startYear = scanner.nextInt();
+              String input = scanner.nextLine().trim();
+
+              if (!input.isEmpty() && input.matches("\\d+(\\.\\d+)?")) {
+                startYear = Integer.parseInt(input);
                 if (Validation.isValidStartYear(String.valueOf(startYear))) {
                   break;
                 } else {
@@ -178,7 +175,6 @@ public class ControllerMenuUpdate {
                 }
               } else {
                 displayMess("Invalid start year format. Please enter a valid");
-                scanner.next(); // clear invalid input
               }
             }
             listStudentBo.updateRequestById(id, String.valueOf(startYear), choice);
@@ -190,8 +186,10 @@ public class ControllerMenuUpdate {
             double gpa;
             while (true) {
               displayMess("Enter student's GPA: ");
-              if (scanner.hasNextDouble()) {
-                gpa = scanner.nextDouble();
+              String input = scanner.nextLine().trim();
+
+              if (!input.isEmpty() && input.matches("\\d+(\\.\\d+)?")) {
+                gpa = Double.parseDouble(input);
                 if (Validation.isValidGPA(String.valueOf(gpa))) {
                   break;
                 } else {
@@ -199,17 +197,18 @@ public class ControllerMenuUpdate {
                 }
               } else {
                 displayMess("Invalid GPA format. Please enter a valid number.");
-                scanner.next(); // clear invalid input
               }
             }
 //            listStudentBo.updateRequestById(id, String.valueOf(gpa), choice);
-            studentBo.updateRequestById(id, String.valueOf(gpa) ,choice);
+            studentBo.updateRequestById(id, String.valueOf(gpa), choice);
             System.out.println("GPA updated successfully.");
             break;
 
           case 10:
             System.out.println("Updating all fields...");
-//            listStudentBo.updateById(id, Menu.MenuInputDataCreate());
+            Menu.MenuInputDataCreate();
+            Menu obj = new Menu();
+            listStudentBo.updateById(id,obj.getStudent());
             System.out.println("All fields updated successfully.");
             break;
 

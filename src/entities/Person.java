@@ -2,13 +2,14 @@ package entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Person implements Serializable {
 
   private static int staticId = 1;
   private int id;
   private String name;
-  private Date dateOfBirth;
+  private LocalDate dateOfBirth;
   private String address;
   private double height; // in cm
   private double weight;
@@ -28,11 +29,15 @@ public class Person implements Serializable {
     this.name = name;
   }
 
-  public Date getDateOfBirth() {
+  public static void setStaticId(int staticId) {
+    Person.staticId = staticId;
+  }
+
+  public LocalDate getDateOfBirth() {
     return dateOfBirth;
   }
 
-  public void setDateOfBirth(Date dateOfBirth) {
+  public void setDateOfBirth(LocalDate dateOfBirth) {
     this.dateOfBirth = dateOfBirth;
   }
 
@@ -64,7 +69,7 @@ public class Person implements Serializable {
     this.weight = weight;
   }
 
-  public Person(String name, Date dateOfBirth, String address, double height,
+  public Person(String name, LocalDate dateOfBirth, String address, double height,
       double weight) {
     this.id = Person.staticId++;
     this.name = name;

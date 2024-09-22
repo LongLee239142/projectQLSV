@@ -3,6 +3,7 @@ package entities;
 import common.EnumPerformance;
 import java.io.Serializable;
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Student extends Person implements Serializable {
   private String studentCode;
@@ -14,7 +15,7 @@ public class Student extends Person implements Serializable {
   public Student() {
   }
 
-  public Student(String name, Date dateOfBirth, String address, double height, double weight,
+  public Student(String name, LocalDate dateOfBirth, String address, double height, double weight,
       String studentCode, String university, int startYear, double gpa) {
     super(name, dateOfBirth, address, height, weight);
     this.studentCode = studentCode;

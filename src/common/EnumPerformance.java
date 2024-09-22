@@ -38,6 +38,10 @@ public enum EnumPerformance {
         .findFirst();
     return performance.orElse(null);
   }
+
+  public boolean equalsIgnoreCase(String rank) {
+    return performance.equalsIgnoreCase(rank);
+  }
 //  public static void main(String[] args) {
 //    System.out.println(calculatePerformance(7.2));
 //  }
