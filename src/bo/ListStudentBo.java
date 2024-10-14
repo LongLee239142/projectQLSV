@@ -1,4 +1,6 @@
 package bo;
+
+
 import common.ICommon;
 import common.EnumPerformance;
 import entities.Student;
@@ -16,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class ListStudentBo implements ICommon<Student> {
@@ -24,7 +27,7 @@ public class ListStudentBo implements ICommon<Student> {
 
   @Override
   public List<Student> initiaPersonList() {
-    studentLists_dynamic.add(new Student("Bob Smith",  LocalDate.of(1999, 11, 10),
+    studentLists_dynamic.add(new Student("Bob Smith", LocalDate.of(1999, 11, 10),
         "789 Oak St", 1.80, 75.0, "S34567",
         "Stanford University",
         2018, 7.8));
@@ -93,7 +96,8 @@ public class ListStudentBo implements ICommon<Student> {
         .findFirst();
     if (student.isPresent()) {
       studentLists_dynamic.remove(student.get());
-      List<Student> studentAfterRemove = studentLists_dynamic.stream().filter(s -> s.getId() > id).toList();
+      List<Student> studentAfterRemove = studentLists_dynamic.stream().filter(s -> s.getId() > id)
+          .toList();
       int temp = id;
       for (int i = 0; i < studentAfterRemove.size(); i++) {
         studentAfterRemove.get(i).setId(temp);
@@ -106,30 +110,42 @@ public class ListStudentBo implements ICommon<Student> {
     return true;
   }
 
-//  public List<Student> getStudentByRank(String rank) {
+  //  public List<Student> getStudentByRank(String rank) {
 //    return studentLists_dynamic.stream()
 //        .filter(s -> {
 //          s.getAcademicPerformance().equals(rank);
 //          return false;
 //        }).toList();
 //  }
-public void getStudentByRank(String rank) {
-  if(studentLists_dynamic.isEmpty()){
-    System.out.println("Not Found Student List");
-    return;
+  public static List<Student> getStudentByRank(String rank) {
+    List<Student> students = new ArrayList<Student>();
+    if (studentLists_dynamic.isEmpty()) {
+      System.out.println("Not Found Student List");
+      return null;
+    }
+    for (Student student : studentLists_dynamic) {
+      if (student.getAcademicPerformance().equalsIgnoreCase(rank)) {
+        students.add(student);
+      }
+    }
+    return students;
   }
-  for(Student student : studentLists_dynamic) {
-    if (student.getAcademicPerformance().equalsIgnoreCase(rank)) {
-      System.out.println(student);
+  public void getStudentByAcademicPerformance(String Rank){
+    List<Student> students = ListStudentBo.getStudentByRank(Rank);
+    if(students.isEmpty()){
+      System.out.println("Not found Student List");
+    }else {
+     for(Student student : students){
+        System.out.println(student);
+     }
     }
   }
-}
+
   @Override
   public List<Student> viewRankAcademicPerformance() {
     List<Student> sortedStudentList = studentLists_dynamic.stream()
         .sorted(Comparator.comparingDouble(Student::getGpa).reversed())
         .collect(Collectors.toList());
-    System.out.println("Rank Academic Performance:");
     for (int i = 0; i < sortedStudentList.size(); i++) {
       System.out.println((i + 1) + ". " + sortedStudentList.get(i).getName() +
           " (GPA: " + sortedStudentList.get(i).getGpa() + ")");
@@ -158,7 +174,7 @@ public void getStudentByRank(String rank) {
       percentOfPerformance.put(performance, (double) amount / totalStudents * 100);
     }
     for (Map.Entry<EnumPerformance, Double> entry : sortMap(percentOfPerformance).entrySet()) {
-      System.out.printf("%s: %.2f%%%n", entry.getKey(), entry.getValue());
+      System.out.printf("%s: %.2f%%%n", entry.getKey().getPerformance(), entry.getValue());
     }
   }
 
@@ -243,4 +259,61 @@ public void getStudentByRank(String rank) {
       System.out.println("Student not found!");
     }
   }
+
+  public void findStudentByPerformance() {
+    Scanner scanner = new Scanner(System.in);
+    ListStudentBo listStudentBo = new ListStudentBo();
+
+    while (true) {
+      try {
+        System.out.println("1. Excellent");
+        System.out.println("2. Very Good");
+        System.out.println("3. Good");
+        System.out.println("4. Medium");
+        System.out.println("5. Weak");
+        System.out.println("6. Poor");
+        System.out.println("7. Exit");
+        System.out.print("Choose an option: ");
+
+        int choices = Integer.parseInt(scanner.nextLine());  // Handle non-numeric input
+
+        switch (choices) {
+          case 1:
+            listStudentBo.getStudentByAcademicPerformance("Excellent");
+            System.out.println("---------------------------------------------------");
+            break;
+          case 2:
+            listStudentBo.getStudentByAcademicPerformance("Very Good");
+            System.out.println("---------------------------------------------------");
+            break;
+          case 3:
+            listStudentBo.getStudentByAcademicPerformance("Good");
+            System.out.println("---------------------------------------------------");
+            break;
+          case 4:
+            listStudentBo.getStudentByAcademicPerformance("Medium");
+            System.out.println("---------------------------------------------------");
+            break;
+          case 5:
+            listStudentBo.getStudentByAcademicPerformance("Weak");
+            System.out.println("---------------------------------------------------");
+            break;
+          case 6:
+            listStudentBo.getStudentByAcademicPerformance("Poor");
+            System.out.println("---------------------------------------------------");
+            break;
+          case 7:
+            System.out.println("Exiting...");
+            return;
+          default:
+            System.out.println("Invalid choice! Please enter a number between 1 and 7.");
+        }
+      } catch (NumberFormatException e) {
+        System.out.println("Invalid input! Please enter a valid number.");
+      } catch (Exception e) {
+        System.out.println("An error occurred: " + e.getMessage());
+      }
+    }
+  }
+
 }

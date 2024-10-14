@@ -10,6 +10,9 @@ import static common.Constant.STUDENT_CODE_PATTERN;
 import static common.Constant.UNIVERSAL_PATTERN;
 import static common.Constant.WEIGHT_PATTERN;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -49,7 +52,7 @@ public class Validation {
   }
 
   public static boolean isValidBirthDate(String date) {
-    return isValid(date.trim(), BIRTHDAY_PATTERN);
+    return isValid(date.trim(), BIRTHDAY_PATTERN) && isValidDateBrith(date);
   }
 
   public static boolean isValid(String object, Pattern regex) {
@@ -58,6 +61,15 @@ public class Validation {
     }
     Matcher matcher = regex.matcher(object);
     return matcher.matches();
+  }
+  public static boolean isValidDateBrith(String dateStr) {
+    DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    try {
+      LocalDate date = LocalDate.parse(dateStr, dateFormatter);
+      return !date.isAfter(LocalDate.now());
+    } catch (DateTimeParseException e) {
+      return false;
+    }
   }
 }
 

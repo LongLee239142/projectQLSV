@@ -1,5 +1,6 @@
 package common;
 
+
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -33,10 +34,10 @@ public enum EnumPerformance {
   }
 
   public static EnumPerformance ratingPerformance(double gpa) {
-    Optional<EnumPerformance> performance = Arrays.stream(EnumPerformance.values())
+    Optional<EnumPerformance> performances = Arrays.stream(EnumPerformance.values())
         .filter(p -> gpa >= p.getFrom() && gpa < p.getToBelow())
         .findFirst();
-    return performance.orElse(null);
+    return performances.orElse(null);
   }
 
   public boolean equalsIgnoreCase(String rank) {

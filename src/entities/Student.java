@@ -68,7 +68,7 @@ public class Student extends Person implements Serializable {
         ", university='" + university + '\'' +
         ", startYear=" + startYear +
         ", gpa=" + gpa +
-        ", academicPerformance=" + getAcademicPerformance() +
+        ", academicPerformance=" + getAcademicPerformance().getPerformance() +
         '}';
   }
 }
